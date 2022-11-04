@@ -1,32 +1,15 @@
+--DESYNC
 local P1000ToggleKey = "x" 
 checkcaller = checkcaller
 newcclosure = newcclosure
 hookmetamethod = hookmetamethod
 
-local Enabled = true
+local Enabled = false
 local RunService = game:GetService("RunService")
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 
-Mouse.KeyDown:Connect(function(keydetect)
-    if keydetect == string.lower(P1000ToggleKey) then
-        pcall(function()
-            if Enabled == false then
-                Enabled = true
-                print("Enabled P1000")
-            elseif Enabled == true then
-                Enabled = false
-                print("Disabled P1000")
-            end
-        end)
-    end
-end)
 
-Mouse.KeyDown:Connect(function(keydetect)
-    if keydetect == ("=") then
-        game:GetService("TeleportService"):Teleport(game.PlaceId, LocalPlayer) 
-    end
-end)
 
 function RandomNumberRange(a)
     return math.random(-a * 100, a * 100) / 100
@@ -63,7 +46,7 @@ local XDDDDDD = nil
 XDDDDDD = hookmetamethod(game, "__index", newcclosure(function(self, key)
     if Enabled == true then
         if not checkcaller() then
-            if key == "CFrame" and Enabled == true and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and LocalPlayer.Character:FindFirstChild("Humanoid") and LocalPlayer.Character:FindFirstChild("Humanoid").Health > 0 then
+            if Enabled == true and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and LocalPlayer.Character:FindFirstChild("Humanoid") and LocalPlayer.Character:FindFirstChild("Humanoid").Health > 0 then
                 if self == LocalPlayer.Character.HumanoidRootPart then
                     return DesyncTypes[1] or CFrame.new()
                 elseif self == LocalPlayer.Character.Head then
@@ -74,7 +57,3 @@ XDDDDDD = hookmetamethod(game, "__index", newcclosure(function(self, key)
     end
     return XDDDDDD(self, key)
 end))
-
-
-
-
